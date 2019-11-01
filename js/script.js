@@ -8,6 +8,7 @@ $("#design").on('change', function(e){
 
  console.log(this.value);
  const $colorChildren = $("#color").children();
+ console.log($colorChildren);
  if(this.value ==="js puns")
  {
     
@@ -53,13 +54,51 @@ $("#design").on('change', function(e){
 });
 
 let $cost = 0.0;
-const $activities = $(".activities").append("Cost : " + $cost);
+const $label = $('<label id="Cost">Cost : ' + $cost + '</label>');
+const $activities = $(".activities").append($label);
+console.log($(".activities label").children());
+let $inputCollection = $(".activities label").children();
 
-$(".activities").on("change","input",function(e){
+
+///////////////////////////////////////////////////////////////// event for activities section
+$(".activities ").on("change","input",function(e){
+
+let costActivity = parseInt($(this).attr("data-cost").substring(1));
+let dateActivity = $(e.target).attr("data-day-and-time");
+console.log(dateActivity);
+
+
+
+$.each($inputCollection, function(index,value){
+
+    console.log($(this).attr('data-day-and-time'));
+    if($(this).attr('data-day-and-time') === dateActivity)
+    {
+        $( this ).prop( "disabled", true );
+    } 
+    else
+    {
+        $( this ).prop( "disabled", false);
+
+    }
+
+})
+
+
+if($(this).prop("checked")){
+    $cost += costActivity;
+    $("#Cost").html('<label id="Cost">Cost : '+ $cost + '</label>');
+
+}else {
+    $cost -= costActivity;
+    $("#Cost").html('<label id="Cost">Cost : '+ $cost + '</label>');
+}
+
+
+
 
 console.log(parseInt($(this).attr("data-cost").substring(1)));
-console.log($(this).attr("data-day-and-time"));
+//console.log($(this).attr("data-day-and-time"));
 //$cost += parseInt($(this).attr("data-cost"));
 console.log($cost);
 });
-
