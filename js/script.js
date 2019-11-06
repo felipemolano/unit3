@@ -7,9 +7,13 @@ let $inputCollection = $(".activities label").children();
 $("#name").focus();
 $("#other-title").hide();
 $("#design").children().eq(0).hide();
-const $defaultOption = $("#color").append("<option id='temp' value='default'>please select a T-shirt theme</option>")
-const $firstElement = $("#color").children().eq(0).text();
-$("#color").children().eq(0).text("Please select a T-shirt theme");
+const $defaultOption = $("#color").append("<option id='temp' value='default'>please select a T-shirt theme</option>");
+
+$("#color option[selected]").removeAttr("selected");
+$("#color option[value='default']").attr("selected", "selected");
+
+
+
 $("#color").children().hide();
 
 
@@ -81,7 +85,7 @@ $("#payment").on("change",function(e){
 ////////////////////////////////////////////////////////////  event that check Design dropdown changes
 $("#design").on('change', function(e){
 
-$("#color").children().eq(0).text($firstElement);
+
 $("#temp").remove();
  
  const $colorChildren = $("#color").children();
@@ -91,10 +95,18 @@ $("#temp").remove();
     
     $colorChildren.each( function(index,value){
 
-        const str = value.innerText;
-        if(str.includes("JS Puns shirt only")  && !str.includes("please"))
+        const str = $(this).attr("value");
+  
+   
+
+        if(str === "cornflowerblue" || str === "darkslategrey" || str === "gold")
         {
+
+            //console.log(index);
+     
             $(this).show();
+            $("#color option[selected]").removeAttr("selected");
+            $("#color option[value='cornflowerblue']").attr("selected", "selected");
         }
         else{
             $(this).hide();
@@ -109,11 +121,14 @@ $("#temp").remove();
 
     $colorChildren.each( function(index,value){
 
-        const str = value.innerText;
-
-        if(!str.includes("Puns"))
+        const str = $(this).attr("value");
+        
+        if(str === "tomato" || str === "steelblue" || str === "dimgrey")
         {
+  
             $(this).show();
+            $("#color option[selected]").removeAttr("selected");
+            $("#color option[value='tomato']").attr("selected", "selected");
         }
         else{
             $(this).hide();
