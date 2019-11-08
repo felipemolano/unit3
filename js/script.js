@@ -35,6 +35,11 @@ $($errorEmail).hide();
 const $errorActivities = $('<label id="no-act">you must select one activity at least! </label>');
 $(".activities").append($errorActivities);
 $("#no-act").hide();
+
+
+const $errorCC = $('<label id="invalid-cc">invalid credit card number!</label>');
+$("#credit-card").append($errorCC);
+$("#invalid-cc").hide();
 /////////////////////////////////////////////////////////////
 
 
@@ -248,15 +253,15 @@ function isValidCreditCard(creditCardNumber){
    
     if(/^[0-9]{13}$|^[0-9]{14}$|^[0-9]{15}$|^[0-9]{16}$/.test(creditCardNumber))
     {
-        $($ErrorName).hide();
+      
         return true;
     }
     else{
-        $($ErrorName).show();
+        $($errorCC).show().css("color","red");
         return false;
     }
 }
-/////////////////////////
+////////////////////////////////////////////////////
 
 
 
@@ -273,12 +278,14 @@ function isValidForm()
 
     const $name  = $("#name").val();
     const $email = $("#mail").val();
+    let isValidForm = false;
 
 
 
     if(isValidUsername($name) && isValidEmail($email) && isRegisteredForAnyActivity())
     {
         console.log("is ok");
+        isValidForm = true;
     }
     else
     {
@@ -286,6 +293,15 @@ function isValidForm()
      isValidEmail($email);
      isRegisteredForAnyActivity();
 
+    }
+
+    /// check the credit card info
+
+    if($showCC)
+    {
+        const $cc = $("#cc-num").val();
+        console.log($cc);
+        isValidCreditCard($cc);
     }
 
 
