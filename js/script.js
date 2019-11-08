@@ -8,17 +8,27 @@ $("#name").focus();
 $("#other-title").hide();
 $("#design").children().eq(0).hide();
 const $defaultOption = $("#color").append("<option id='temp' value='default'>please select a T-shirt theme</option>");
-
 $("#color option[selected]").removeAttr("selected");
 $("#color option[value='default']").attr("selected", "selected");
-
-
-
 $("#color").children().hide();
+/////////////////////////////////////////// click event handler for job role //////////////////////////
+$("#title").on("click",function(e){
+
+    console.log(e.target.value);
+    if(e.target.value === "other"){
+
+        $("#other-title").show();
+
+    }
+    else{
+        $("#other-title").hide();
+    }
+});
+////////////////////////////////////////////////////////////////////
 
 
 
-/////////////////////////// payment
+
 
 
 
@@ -38,8 +48,17 @@ $("#no-act").hide();
 
 
 const $errorCC = $('<label id="invalid-cc">invalid credit card number!</label>');
-$("#credit-card").append($errorCC);
+$(".col-6").append($errorCC);
 $("#invalid-cc").hide();
+
+const $errorZip = $('<label id="invalid-zip">invalid zip!</label>');
+$("#zip ").after($errorZip);
+$("#invalid-zip").hide();
+
+
+const $errorCVV= $('<label id="invalid-cvv">invalid cvv!</label>');
+$(".col-3").append($errorCVV);
+$("#invalid-cvv").hide();
 /////////////////////////////////////////////////////////////
 
 
@@ -107,7 +126,7 @@ $("#temp").remove();
         if(str === "cornflowerblue" || str === "darkslategrey" || str === "gold")
         {
 
-            //console.log(index);
+            
      
             $(this).show();
             $("#color option[selected]").removeAttr("selected");
@@ -195,8 +214,8 @@ if($(this).prop("checked")){
 });
 
 
-/////////////////////////////////////////////////////////
-/*VALIDATION*/
+//////////////////////////////////////////  /*VALIDATION*/  ///////////////
+
 //// validate the name
 function isValidUsername(username){
     
@@ -253,7 +272,7 @@ function isValidCreditCard(creditCardNumber){
    
     if(/^[0-9]{13}$|^[0-9]{14}$|^[0-9]{15}$|^[0-9]{16}$/.test(creditCardNumber))
     {
-      
+        $($errorCC).hide();
         return true;
     }
     else{
@@ -262,9 +281,37 @@ function isValidCreditCard(creditCardNumber){
     }
 }
 ////////////////////////////////////////////////////
-
-
-
+//////////////////////// validate the zip code
+function isValidZip(zip){
+    
+    
+   
+    if(/^[0-9]{5}$/.test(zip))
+    {
+        $($errorZip).hide();
+        return true;
+    }
+    else{
+        $($errorZip).show().css("color","red");
+        return false;
+    }
+}
+//////////////////////////////////////////////////
+///////////////////////// validate the CVV number
+function isValidCVV(cvv){
+    
+    
+   
+    if(/^[0-9]{3}$/.test(cvv))
+    {
+        $($errorCVV).hide();
+        return true;
+    }
+    else{
+        $($errorCVV).show().css("color","red");
+        return false;
+    }
+}
 
 
 
@@ -292,17 +339,35 @@ function isValidForm()
      isValidUsername($name);
      isValidEmail($email);
      isRegisteredForAnyActivity();
-
+        isValidForm = false;
     }
 
     /// check the credit card info
 
     if($showCC)
     {
-        const $cc = $("#cc-num").val();
-        console.log($cc);
-        isValidCreditCard($cc);
+        const $cc  = $("#cc-num").val();
+        const $zip = $("#zip").val();
+        const $cvv = $("#cvv").val();
+       
+        if(isValidCreditCard($cc) && isValidZip($zip) && isValidCVV($cvv))
+        {
+            isValidForm =  true;
+        }
+
+        else{
+            
+        
+            isValidCreditCard($cc);
+            isValidZip($zip);
+            isValidCVV($cvv);
+            isValidForm = false;
+        }
+   
     }
+
+
+    return isValidForm;
 
 
 
