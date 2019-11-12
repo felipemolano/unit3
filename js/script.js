@@ -12,10 +12,11 @@ $("#color option[selected]").removeAttr("selected");
 $("#color option[value='default']").attr("selected", "selected");
 $("#color").children().hide();
 /////////////////////////////////////////// click event handler for job role //////////////////////////
-$("#title").on("click",function(e){
+$("#title").on("change",function(e){
 
-    console.log(e.target.value);
-    if(e.target.value === "other"){
+    const $title = $("#title").val();
+    console.log($title);
+    if($title === "other"){
 
         $("#other-title").show();
 
@@ -331,7 +332,7 @@ function isValidForm()
 
     if(isValidUsername($name) && isValidEmail($email) && isRegisteredForAnyActivity())
     {
-        console.log("is ok");
+       
         isValidForm = true;
     }
     else
@@ -350,7 +351,7 @@ function isValidForm()
         const $zip = $("#zip").val();
         const $cvv = $("#cvv").val();
        
-        if(isValidCreditCard($cc) && isValidZip($zip) && isValidCVV($cvv))
+        if(isValidCreditCard($cc) && isValidZip($zip) && isValidCVV($cvv) && isValidUsername($name) && isValidEmail($email) && isRegisteredForAnyActivity())
         {
             isValidForm =  true;
         }
@@ -358,6 +359,9 @@ function isValidForm()
         else{
             
         
+            isValidUsername($name);
+            isValidEmail($email);
+            isRegisteredForAnyActivity();
             isValidCreditCard($cc);
             isValidZip($zip);
             isValidCVV($cvv);
@@ -376,8 +380,11 @@ function isValidForm()
 //// validation on clicking button
 $("button").on("click",function(e){
 
-    e.preventDefault();
-    isValidForm();
+    if(!isValidForm()){
+        e.preventDefault();  /// if the form is not valid the page wont load after submit
+    }
+    
+    
 
 
 });
